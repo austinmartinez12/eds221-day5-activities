@@ -1,0 +1,76 @@
+---
+title: "new 2"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+```{r}
+#Task 3
+us_tilapia_imports <- read_csv(here::here("data", "us_tilapia_imports.csv"))
+```
+
+```{r}
+#explore data
+summary(us_tilapia_imports)
+names(us_tilapia_imports)
+dim(us_tilapia_imports)
+skimr::skim(us_tilapia_imports)
+```
+
+```{r}
+#make long
+
+ proj_df <- pivot_longer(data = us_tilapia_imports, cols = -country, names_to = "year", values_to = "kilograms")
+
+```
+
+```{r}
+
+  proj_df_2 <- proj_df |>
+  mutate(year = as.numeric(year))
+
+
+```
+
+```{r}
+class(proj_df_2$year)
+
+yearly_tilapia_tot <- proj_df_2 |> dplyr::group_by(year) |> summarize(total_kilograms = sum(kilograms, na.rm = TRUE))
+```
+
+```{r}
+filter(data = proj_df, )
+```
+
+
+```{r}
+plot <- ggplot(data = yearly_tilapia_tot, aes(x= year, y= total_kilograms)) + geom_point() + geom_line()
+plot
+```
+
+```{r}
+ggsave(here::here("figs", "yearly_tilapia_tot.png"))
+
+```
+
+```{r}
+poop <- data.frame(dplyr::filter(proj_df_2, country == c("Ecuador", "Honduras", "Costa Rica", "Mexico"), na.rm = TRUE))
+
+```
+
+```{r}
+plot <- ggplot(data = poop, aes(x= year, y= kilograms)) + geom_point() + geom_line(aes(color = country)) + labs( title = "bruh", x = "bruh", y= "bruh")
+plot
+```
+
+```{r}
+ggsave(here::here("figs", "task4.png"))
+
+```
+

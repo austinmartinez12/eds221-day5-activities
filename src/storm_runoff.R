@@ -10,7 +10,8 @@ library(roxygen2)
 #'
 #' @examples
 
-predict_runoff <- function(Rv, A) {
+predict_runoff <- function( A, Ia) {
+  Rv <- 0.05 + 0.9 * Ia
   V <- 3630 * 1 * Rv * A
   return(V)
 }
